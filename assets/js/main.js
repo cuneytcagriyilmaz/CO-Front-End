@@ -13,7 +13,7 @@
       ud_header.classList.remove("sticky");
     }
 
-    if(logo.length) {
+    if (logo.length) {
       // === logo change
       if (ud_header.classList.contains("sticky")) {
         document.querySelector(".header-logo").src =
@@ -25,12 +25,12 @@
     }
 
     if (document.documentElement.classList.contains("dark")) {
-      if(logo.length) {
+      if (logo.length) {
         // === logo change
         if (ud_header.classList.contains("sticky")) {
           document.querySelector(".header-logo").src =
             "assets/images/logo/logo-white.svg"
-        } 
+        }
       }
     }
 
@@ -118,7 +118,7 @@
     scrollTo(document.documentElement);
   };
 
-    /* ========  themeSwitcher start ========= */
+  /* ========  themeSwitcher start ========= */
 
   // themeSwitcher
   const themeSwitcher = document.getElementById('themeSwitcher');
@@ -156,3 +156,104 @@
   themeCheck();
   /* ========  themeSwitcher End ========= */
 })();
+
+
+// Form Validation and Submission
+document.getElementById("submitButton").addEventListener("click", function () {
+  const form = document.getElementById("contactForm");
+  const formData = new FormData(form);
+
+  const fullName = formData.get("fullName").trim();
+  const email = formData.get("email").trim();
+  const subject = formData.get("subject").trim();
+  const message = formData.get("message").trim();
+
+  // Email formatını kontrol eden regex
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (!fullName || !email || !subject || !message) {
+    alert("Lütfen tüm alanları doldurun.");
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    alert("Lütfen geçerli bir e-posta adresi girin.");
+    return;
+  }
+
+  // Formu başarılı şekilde gönderdiysek buradan devam edebiliriz
+  alert("Form başarıyla gönderildi!");
+
+  // Formu sıfırla
+  form.reset();
+});
+
+
+ // ==== for menu scroll
+    const pageLink = document.querySelectorAll(".ud-menu-scroll");
+
+    pageLink.forEach((elem) => {
+      elem.addEventListener("click", (e) => {
+        e.preventDefault();
+        document.querySelector(elem.getAttribute("href")).scrollIntoView({
+          behavior: "smooth",
+          offsetTop: 1 - 60,
+        });
+      });
+    });
+
+    // section menu active
+    function onScroll(event) {
+      const sections = document.querySelectorAll(".ud-menu-scroll");
+      const scrollPos =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+
+      for (let i = 0; i < sections.length; i++) {
+        const currLink = sections[i];
+        const val = currLink.getAttribute("href");
+        const refElement = document.querySelector(val);
+        const scrollTopMinus = scrollPos + 73;
+        if (
+          refElement.offsetTop <= scrollTopMinus &&
+          refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+        ) {
+          document
+            .querySelector(".ud-menu-scroll")
+            .classList.remove("active");
+          currLink.classList.add("active");
+        } else {
+          currLink.classList.remove("active");
+        }
+      }
+    }
+
+    window.document.addEventListener("scroll", onScroll);
+
+    // Testimonial
+    const testimonialSwiper = new Swiper(".testimonial-carousel", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+
+      // Navigation arrows
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
+        1280: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+        },
+      },
+    });
